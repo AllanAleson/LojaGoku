@@ -1,4 +1,4 @@
-// Dados de usuários para login
+// Dados de usuários para login (exemplo hardcoded)
 function dados() {
     return [
         { id: 1, login: "matheus", password: "1234", email: "matheus@gmail.com" },
@@ -11,60 +11,109 @@ function dados() {
 
 const usuarios = dados();
 
-// Função de login
 function Login() {
-    const log = document.querySelector("#login").value.trim();
-    const senha = document.querySelector("#password").value.trim();
+    const log = document.querySelector("#loginEmail").value.trim(); // ID corrigido
+    const senha = document.querySelector("#loginPassword").value.trim(); // ID corrigido
 
     if (!log || !senha) {
         alert("Por favor, preencha todos os campos!");
         return;
     }
 
-    const loginSuccessful = usuarios.some(
-        user => user.login === log && user.password === senha
-    );
+    // Busca usuários registrados no localStorage e adiciona aos usuários estáticos
+    const usuariosRegistrados = JSON.parse(localStorage.getItem("usuarios")) || [];
+    const todosUsuarios = [...usuarios, ...usuariosRegistrados];
 
-    if (loginSuccessful) {
-        alert("Você logou!");
-        window.location.href = "no_login_index.html";
+    // Verifica o login
+    const usuario = todosUsuarios.find(user => user.email === log && user.password === senha);
+
+    if (usuario) {
+        alert(`Bem-vindo, ${usuario.login || usuario.email}!`); // Exibe o login ou email
+        sessionStorage.setItem("usuarioLogado", JSON.stringify(usuario));
+        window.top.location.href = "no_login_index.html"; // Redireciona para a página principal
     } else {
         alert("Login ou senha inválidos!");
     }
 }
 
-// Função para adicionar item ao carrinho
-function adicionarAoCarrinho(nome, preco, imagem) {
-    const produto = { nome, preco, imagem, quantidade: 1 };
-    const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+// cadastro
+function cadastrar() {
+    const email = document.querySelector("#registerEmail").value.trim();
+    const senha = document.querySelector("#registerPassword").value.trim();
 
-    // Verifica se o item já está no carrinho
-    const itemExistente = carrinho.find(item => item.nome === nome);
+    if (!email || !senha) {
+        alert("Por favor, preencha todos os campos!");
+        return;
+    }
+
+    // Obtém os usuários existentes do localStorage ou inicia um array vazio
+    const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+    // Verifica se o email já está cadastrado
+    if (usuarios.some(user => user.email === email)) {
+        alert("Esse email já está registrado!");
+        return;
+    }
+
+    // Cria um novo usuário
+    const novoUsuario = {
+        id: Date.now(), // Gera um ID único baseado no timestamp atual
+        email: email,
+        password: senha
+    };
+
+    usuarios.push(novoUsuario); // Adiciona o novo usuário ao array
+    localStorage.setItem("usuarios", JSON.stringify(usuarios)); // Salva no localStorage
+
+    alert("Usuário registrado com sucesso!");
+    toggleLogin(); // Alterna para o formulário de login
+}
+
+
+
+// Função para verificar login ao carregar outra página
+function verificarUsuarioLogado() {
+    const usuarioLogado = JSON.parse(sessionStorage.getItem("usuarioLogado"));
+    if (usuarioLogado) {
+        const bemVindo = document.querySelector("#bemVindo");
+        if (bemVindo) {
+            bemVindo.textContent = `Bem-vindo, ${usuarioLogado.login}!`;
+        }
+    } else {
+        window.location.href = "login.html"; // Redireciona para login se não estiver logado
+    }
+}
+
+// Função para adicionar item ao carrinho
+function adicionarAoCarrinho(produto) {
+    if (!produto.nome || !produto.preco) {
+        alert("Produto inválido!");
+        return;
+    }
+
+    const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+    const itemExistente = carrinho.find(item => item.nome === produto.nome);
 
     if (itemExistente) {
-        // Se já existe, aumenta a quantidade
         itemExistente.quantidade += 1;
     } else {
-        // Se não existe, adiciona como novo item com quantidade inicial de 1
+        produto.quantidade = 1;
         carrinho.push(produto);
     }
 
     localStorage.setItem("carrinho", JSON.stringify(carrinho));
+    mostrarMensagem(`${produto.nome} foi adicionado ao carrinho!`);
+    atualizarContadorCarrinho();
+}
 
-    // Exibe mensagem de sucesso
-    const mensagemExistente = document.querySelector(".mensagem-carrinho");
-    if (mensagemExistente) mensagemExistente.remove();
-
+// Função para exibir mensagens temporárias
+function mostrarMensagem(texto) {
     const mensagem = document.createElement("div");
     mensagem.className = "mensagem-carrinho";
-    mensagem.textContent = `${nome} foi adicionado ao carrinho!`;
+    mensagem.textContent = texto;
     document.body.appendChild(mensagem);
 
-    setTimeout(() => {
-        mensagem.remove();
-    }, 2000);
-
-    atualizarContadorCarrinho(); // Atualiza o contador
+    setTimeout(() => mensagem.remove(), 2000);
 }
 
 // Função para exibir carrinho
@@ -141,12 +190,6 @@ function atualizarContadorCarrinho() {
     }
 }
 
-// Função para finalizar a compra
-function finalizarCompra() {
-    esconderCarrinho();
-    window.location.href = "carrinho.html";  // Redireciona para o carrinho
-}
-
 // Eventos ao carregar o DOM
 document.addEventListener("DOMContentLoaded", function () {
     // Botão de login
@@ -178,3 +221,87 @@ document.addEventListener("DOMContentLoaded", function () {
 
     atualizarContadorCarrinho(); // Atualiza contador ao carregar a página
 });
+function finalizarCompra() {
+    window.location.href = "carrinho.html"; // Redireciona para a página carrinho.html
+}
+// Função para abrir o modal
+function openModal() {
+    const modal = document.getElementById('modal');
+    if (modal) {
+        modal.style.display = 'flex'; // Abre o modal
+    }
+}
+
+// Função para fechar o modal
+function closeModal() {
+    const modal = document.getElementById('modal');
+    if (modal) {
+        modal.style.display = 'none'; // Fecha o modal
+    }
+}
+
+// Fecha o modal se o usuário clicar fora do conteúdo do modal
+window.onclick = function(event) {
+    const modal = document.getElementById('modal');
+    if (modal && event.target === modal) {
+        modal.style.display = 'none';
+    }
+};
+
+// Adiciona evento ao botão de fechar no modal (se existir)
+document.addEventListener("DOMContentLoaded", () => {
+    const closeButton = document.querySelector('.modal .close');
+    if (closeButton) {
+        closeButton.addEventListener("click", closeModal);
+    }
+});
+function resetPassword() {
+    const email = document.getElementById("forgotEmail").value.trim();
+
+    // Busca os usuários do localStorage
+    let users = JSON.parse(localStorage.getItem("usuarios")) || []; // Use "usuarios" como chave consistente
+
+    // Encontra o índice do usuário pelo email
+    const userIndex = users.findIndex(user => user.email === email);
+
+    if (userIndex !== -1) {
+        // Solicita que o usuário digite uma nova senha
+        const newPassword = prompt("Digite a nova senha:");
+
+        // Valida se o usuário digitou uma nova senha válida
+        if (newPassword && newPassword.trim() !== "") {
+            users[userIndex].password = newPassword.trim(); // Atualiza a senha no array de usuários
+            localStorage.setItem("usuarios", JSON.stringify(users)); // Salva no localStorage
+            alert("Senha alterada com sucesso!");
+
+            // Volta para o formulário de login
+            document.getElementById("forgotPasswordForm").classList.add("hidden");
+            document.getElementById("registerForm").classList.add("hidden");
+            document.getElementById("loginForm").classList.remove("hidden");
+        } else {
+            alert("Por favor, digite uma senha válida.");
+        }
+    } else {
+        alert("Usuário não encontrado.");
+    }
+}
+function revealPassword() {
+    const email = document.getElementById("forgotEmail").value.trim();
+
+    if (!email) {
+        alert("Por favor, insira o email.");
+        return;
+    }
+
+    // Busca os usuários registrados no localStorage
+    const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+    // Procura o usuário com o email fornecido
+    const usuario = usuarios.find(user => user.email === email);
+
+    if (usuario) {
+        alert(`Sua senha é: ${usuario.password}`);
+    } else {
+        alert("Usuário não encontrado. Verifique o email informado.");
+    }
+}

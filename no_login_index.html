@@ -25,11 +25,23 @@
                 </span>
             </button>
 
-            <!-- Carrinho de Compras -->
-            <div id="carrinho-lista">
-                <h4>Seu Carrinho</h4>
-                <ul></ul> <!-- Local onde os itens serão exibidos -->
-                <button onclick="finalizarCompra()">Finalizar compra</button>
+            <div id="carrinho-lista" style="display: none;">
+                <h3>Seu Carrinho</h3>
+                <ul></ul>
+                <button onclick="finalizarCompra()">Finalizar Compra</button>
+            </div>
+            
+            <!-- Botão logout -->
+            <div>
+                <button class="btn btn-warning position-relative">
+                    <a href="index.html" class="button" style="color: black;">
+                        Logout
+                    </a> 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
+                        <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
+                    </svg>                    
+                </button>
             </div>
         </div>
     </header>
@@ -61,111 +73,139 @@
     <div class="container mt-5">
         <h2 class="text-center">Produtos</h2>
         
-        <!-- Contêiner para os cards com fundo cinza claro -->
-        <div class="cards-container" style="background-color: #dadada; padding: 20px; border-radius: 10px;">
-            <div class="row justify-content-center">
-                <!-- Produto 1 -->
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="img/camisa_goku.jpg" class="card-img-top" alt="Camiseta Goku">
-                        <div class="card-body">
-                            <h5 class="card-title">Camiseta Goku</h5>
-                            <p class="card-text">R$39,99</p>
-                            <button class="btn btn-warning btn-block" onclick="adicionarAoCarrinho('Camiseta Goku', 39.99, 'img/camisa_goku.jpg')">Adicionar ao Carrinho</button>
-                        </div>
+        <!-- Contêiner para os cards -->
+        <div class="row justify-content-center" style="background-color: #dadada; padding: 20px; border-radius: 10px;">
+            <!-- Exemplo de Produto -->
+            <div class="col-sm-6 col-md-4 mb-4">
+                <div class="card">
+                    <img src="img/camisa_goku.jpg" class="card-img-top" alt="Camiseta Goku">
+                    <div class="card-body">
+                        <h5 class="card-title">Camiseta Goku</h5>
+                        <p class="card-text">R$39,99</p>
+                        <button class="btn btn-warning btn-block" onclick="adicionarAoCarrinho({ nome: 'Camiseta Goku', preco: 39.99, imagem: 'img/camisa_goku.jpg' })">Adicionar ao Carrinho</button>
                     </div>
                 </div>
-                <!-- Produto 2 -->
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="img/figure_vegeta.jpg" class="card-img-top" alt="Action Figure Vegeta">
-                        <div class="card-body">
-                            <h5 class="card-title">Action Figure Vegeta</h5>
-                            <p class="card-text">R$99,99</p>
-                            <button class="btn btn-warning btn-block" onclick="adicionarAoCarrinho('Action Figure Vegeta', 99.99, 'img/figure_vegeta.jpg')">Adicionar ao Carrinho</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Produto 3 -->
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="img/caneca_goku.jpg" class="card-img-top" alt="Caneca Dragon Ball">
-                        <div class="card-body">
-                            <h5 class="card-title">Caneca Dragon Ball</h5>
-                            <p class="card-text">R$25,00</p>
-                            <button class="btn btn-warning btn-block" onclick="adicionarAoCarrinho('Caneca Dragon Ball', 25.00, 'img/caneca_goku.jpg')">Adicionar ao Carrinho</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Produto 4 -->
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="img/chaveiro.jpg" class="card-img-top" alt="Chaveiro Shenlong">
-                        <div class="card-body">
-                            <h5 class="card-title">Chaveiro Shenlong</h5>
-                            <p class="card-text">R$10,00</p>
-                            <button class="btn btn-warning btn-block" onclick="adicionarAoCarrinho('Chaveiro Shenlong', 10.00, 'img/chaveiro.jpg')">Adicionar ao Carrinho</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Produto 5 -->
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="img/mochila.jpg" class="card-img-top" alt="Mochila Kame">
-                        <div class="card-body">
-                            <h5 class="card-title">Mochila Kame</h5>
-                            <p class="card-text">R$69,00</p>
-                            <button class="btn btn-warning btn-block" onclick="adicionarAoCarrinho('Mochila Kame', 69.00, 'img/mochila.jpg')">Adicionar ao Carrinho</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Produto 6 -->
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="img/bone.jpg" class="card-img-top" alt="Boné Dragon Ball">
-                        <div class="card-body">
-                            <h5 class="card-title">Boné Dragon Ball</h5>
-                            <p class="card-text">R$130,00</p>
-                            <button class="btn btn-warning btn-block" onclick="adicionarAoCarrinho('Boné Dragon Ball', 130.00, 'img/bone.jpg')">Adicionar ao Carrinho</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Produto 7 -->
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="img/poster.png" class="card-img-top" alt="Poster Goku vs Freeza">
-                        <div class="card-body">
-                            <h5 class="card-title">Poster Goku vs Freeza</h5>
-                            <p class="card-text">R$20,00</p>
-                            <button class="btn btn-warning btn-block" onclick="adicionarAoCarrinho('Poster Goku vs Freeza', 20.00, 'img/poster.png')">Adicionar ao Carrinho</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Produto 8 -->
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="img/figure_bulma.png" class="card-img-top" alt="Figura Bulma">
-                        <div class="card-body">
-                            <h5 class="card-title">Figura Bulma</h5>
-                            <p class="card-text">R$230,00</p>
-                            <button class="btn btn-warning btn-block" onclick="adicionarAoCarrinho('Figura Bulma', 230.00, 'img/figure_bulma.png')">Adicionar ao Carrinho</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Produto 9 -->
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="img/relogio.jpg" class="card-img-top" alt="Relógio Dragon Radar">
-                        <div class="card-body">
-                            <h5 class="card-title">Relógio Dragon Radar</h5>
-                            <p class="card-text">R$120,00</p>
-                            <button class="btn btn-warning btn-block" onclick="adicionarAoCarrinho('Relógio Dragon Radar', 120.00, 'img/relogio.jpg')">Adicionar ao Carrinho</button>
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- Fecha a div.row -->
-        </div> <!-- Fecha o contêiner dos cards -->
+            </div>
+ <!-- Produto 1 -->
+ <div class="col-sm-6 col-md-4 mb-4">
+    <div class="card">
+        <img src="img/figure_vegeta.jpg" class="card-img-top" alt="Action Figure Vegeta">
+        <div class="card-body">
+            <h5 class="card-title">Action Figure Vegeta</h5>
+            <p class="card-text">R$99,99</p>
+            <button class="btn btn-warning btn-block" 
+                    onclick="adicionarAoCarrinho({ nome: 'Action Figure Vegeta', preco: 99.99, imagem: 'img/figure_vegeta.jpg' })">
+                Adicionar ao Carrinho
+            </button>
+        </div>
     </div>
+</div>
+
+<!-- Produto 2 -->
+<div class="col-sm-6 col-md-4 mb-4">
+    <div class="card">
+        <img src="img/caneca_goku.jpg" class="card-img-top" alt="Caneca Dragon Ball">
+        <div class="card-body">
+            <h5 class="card-title">Caneca Dragon Ball</h5>
+            <p class="card-text">R$25,00</p>
+            <button class="btn btn-warning btn-block" 
+                    onclick="adicionarAoCarrinho({ nome: 'Caneca Dragon Ball', preco: 25.00, imagem: 'img/caneca_goku.jpg' })">
+                Adicionar ao Carrinho
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Produto 3 -->
+<div class="col-sm-6 col-md-4 mb-4">
+    <div class="card">
+        <img src="img/chaveiro.jpg" class="card-img-top" alt="Chaveiro Shenlong">
+        <div class="card-body">
+            <h5 class="card-title">Chaveiro Shenlong</h5>
+            <p class="card-text">R$10,00</p>
+            <button class="btn btn-warning btn-block" 
+                    onclick="adicionarAoCarrinho({ nome: 'Chaveiro Shenlong', preco: 10.00, imagem: 'img/chaveiro.jpg' })">
+                Adicionar ao Carrinho
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Produto 4 -->
+<div class="col-sm-6 col-md-4 mb-4">
+    <div class="card">
+        <img src="img/mochila.jpg" class="card-img-top" alt="Mochila Kame">
+        <div class="card-body">
+            <h5 class="card-title">Mochila Kame</h5>
+            <p class="card-text">R$69,00</p>
+            <button class="btn btn-warning btn-block" 
+                    onclick="adicionarAoCarrinho({ nome: 'Mochila Kame', preco: 69.00, imagem: 'img/mochila.jpg' })">
+                Adicionar ao Carrinho
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Produto 5 -->
+<div class="col-sm-6 col-md-4 mb-4">
+    <div class="card">
+        <img src="img/bone.jpg" class="card-img-top" alt="Boné Dragon Ball">
+        <div class="card-body">
+            <h5 class="card-title">Boné Dragon Ball</h5>
+            <p class="card-text">R$130,00</p>
+            <button class="btn btn-warning btn-block" 
+                    onclick="adicionarAoCarrinho({ nome: 'Boné Dragon Ball', preco: 130.00, imagem: 'img/bone.jpg' })">
+                Adicionar ao Carrinho
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Produto 6 -->
+<div class="col-sm-6 col-md-4 mb-4">
+    <div class="card">
+        <img src="img/poster.png" class="card-img-top" alt="Poster Goku vs Freeza">
+        <div class="card-body">
+            <h5 class="card-title">Poster Goku vs Freeza</h5>
+            <p class="card-text">R$20,00</p>
+            <button class="btn btn-warning btn-block" 
+                    onclick="adicionarAoCarrinho({ nome: 'Poster Goku vs Freeza', preco: 20.00, imagem: 'img/poster.png' })">
+                Adicionar ao Carrinho
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Produto 7 -->
+<div class="col-sm-6 col-md-4 mb-4">
+    <div class="card">
+        <img src="img/figure_bulma.png" class="card-img-top" alt="Figura Bulma">
+        <div class="card-body">
+            <h5 class="card-title">Figura Bulma</h5>
+            <p class="card-text">R$230,00</p>
+            <button class="btn btn-warning btn-block" 
+                    onclick="adicionarAoCarrinho({ nome: 'Figura Bulma', preco: 230.00, imagem: 'img/figure_bulma.png' })">
+                Adicionar ao Carrinho
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Produto 8 -->
+<div class="col-sm-6 col-md-4 mb-4">
+    <div class="card">
+        <img src="img/relogio.jpg" class="card-img-top" alt="Relógio Dragon Radar">
+        <div class="card-body">
+            <h5 class="card-title">Relógio Dragon Radar</h5>
+            <p class="card-text">R$120,00</p>
+            <button class="btn btn-warning btn-block" 
+                    onclick="adicionarAoCarrinho({ nome: 'Relógio Dragon Radar', preco: 120.00, imagem: 'img/relogio.jpg' })">
+                Adicionar ao Carrinho
+            </button>
+        </div>
+    </div>
+</div>
+</div>
 
     <!-- Seção Sobre Nós -->
     <section class="container mt-5">
